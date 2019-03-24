@@ -92,7 +92,7 @@ class SeeSawBasicView(ctx : Context) : View(ctx) {
 
     data class Animator(var view : View, var animated : Boolean = false) {
 
-        fun aniamte(cb : () -> Unit) {
+        fun animate(cb : () -> Unit) {
             if (animated) {
                 cb()
                 try {
@@ -183,6 +183,28 @@ class SeeSawBasicView(ctx : Context) : View(ctx) {
 
         fun startUpdating(cb : () -> Unit) {
             curr.startUpdating(cb)
+        }
+    }
+
+    data class Renderer(var view : SeeSawBasicView) {
+
+        private val animator : Animator = Animator(view)
+        private val ssb : SeeSawBasic = SeeSawBasic(0)
+
+        fun render(canvas : Canvas, paint : Paint) {
+            canvas.drawColor(backColor)
+            ssb.draw(canvas, paint)
+            animator.animate {
+                ssb.update {i, scl ->
+                    animator.stop()
+                }
+            }
+        }
+
+        fun handleTap() {
+            ssb.startUpdating {
+                animator.start()
+            }
         }
     }
 }
