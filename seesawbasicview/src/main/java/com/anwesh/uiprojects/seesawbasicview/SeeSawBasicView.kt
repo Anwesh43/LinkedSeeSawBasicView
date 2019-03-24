@@ -214,7 +214,7 @@ class SeeSawBasicView(ctx : Context) : View(ctx) {
         fun create(activity : Activity) : SeeSawBasicView {
             val view : SeeSawBasicView = SeeSawBasicView(activity)
             activity.setContentView(view)
-            return view 
+            return view
         }
     }
 }
