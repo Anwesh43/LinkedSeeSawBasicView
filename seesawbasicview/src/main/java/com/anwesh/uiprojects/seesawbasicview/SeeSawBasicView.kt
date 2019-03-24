@@ -20,6 +20,8 @@ val strokeFactor : Int = 90
 val sizeFactor : Float = 2.9f
 val foreColor : Int = Color.parseColor("#673AB7")
 val backColor : Int = Color.parseColor("#BDBDBD")
+val seeSawDeg : Float = 20f
+val clipDeg : Float = 30f
 
 fun Int.inverse() : Float = 1f / this
 fun Float.maxScale(i : Int, n : Int) : Float = Math.max(0f, this - i * n.inverse())
@@ -42,11 +44,13 @@ fun Canvas.drawSSBNode(i : Int, scale : Float, paint : Paint) {
     val sc2 : Float = scale.divideScale(1, 2)
     save()
     translate(w / 2, gap * (i + 1))
-    rotate(-45f * sc2 * i.sjf())
+    save()
+    rotate(-seeSawDeg * sc2 * i.sjf())
     drawLine(-size, 0f, size, 0f, paint)
+    restore()
     for (j in 0..(lines - 1)) {
         save()
-        rotate(-45f * j.sf() * sc1.divideScale(j, lines))
+        rotate(-clipDeg * j.sf() * sc1.divideScale(j, lines))
         drawLine(0f, 0f, 0f, size / 3, paint)
         restore()
     }
